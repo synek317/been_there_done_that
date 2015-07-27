@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Been there, done that",
+  "author": "sasik520",
+  "description": "Extension allows to mark things as 'seen' and hide them",
+  "version": "1.0",
+  "permissions": [
+    "storage",
+	"tabs",
+	"*://*.wykop.pl/mikroblog/*"
+  ],
+  "content_scripts": [
+	{
+		"matches": ["*://*.wykop.pl/mikroblog/*"],
+		"js": ["wykop.pl.js"],
+		"css": ["wykop.pl.css"]
+	}
+  ]
+}

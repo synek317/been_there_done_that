@@ -1,0 +1,29 @@
+.bddt_showHideBtn
+{
+	font-family: monospace;
+	cursor: pointer;
+	display: inline-block;
+}
+
+.bddt_showHideBtn_bottom
+{
+	position: relative;
+	left: 12px;
+	bottom: 10px;
+}
+
+.bddt_showHideBtn_author
+{
+    font-size: x-small;
+    display:  inline-block;
+    margin-left: 3px;
+    vertical-align: top;
+	opacity: .9;
+}
+
+.bddt_hiddenItem
+{
+	height: 65px;
+	overflow: hidden;
+	opacity: .2;
+}
