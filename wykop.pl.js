@@ -1,3 +1,10 @@
+var script = document.createElement('script');
+script.src = chrome.extension.getURL('wykop.pl.injected.js');
+script.onload = function() {
+    this.parentNode.removeChild(this);
+};
+(document.head||document.documentElement).appendChild(script);
+
 const HIDE_TXT = '[ Hide ]';
 const SHOW_TXT = '[ Show ]';
 const SHOW_HIDE_BTN_CLASS = 'bddt_showHideBtn';
@@ -81,16 +88,28 @@ function getItemId(item)
 	return item.querySelector('.wblock').getAttribute('data-id');
 }
 
-function hide(item)
+function hide(item, shouldRefresh)
 {
 	item.classList.add(HIDDEN_ITEM_CLASS);
 	setShowHideBtnsText(item, SHOW_TXT);
+	
+	if(shouldRefresh)
+	{
+		refreshImages();
+	}
 }
 
 function show(item)
 {
 	item.classList.remove(HIDDEN_ITEM_CLASS);
 	setShowHideBtnsText(item, HIDE_TXT);
+}
+
+function refreshImages()
+{
+	setTimeout(function() {
+		document.dispatchEvent(new CustomEvent('bddt_lazyload'));
+	}, 0);
 }
 
 function showHideBtn_click(item)
@@ -104,7 +123,7 @@ function showHideBtn_click(item)
 	}
 	else
 	{
-		hide(item);
+		hide(item, true);
 		remember(itemId, false);
 		when(function() { return item.clientHeight < 70; }, function() { location.hash = '#' + item.querySelector('a').name; });
 	}
@@ -132,6 +151,7 @@ function injectShowHideButtons()
 	
 	getHiddenItemIds(function(hiddenItemIds) {
 		ids = Object.keys(hiddenItemIds);
+		
 		for(var i=0; i<ids.length; i++)
 		{
 			id = ids[i];
@@ -142,6 +162,8 @@ function injectShowHideButtons()
 				hide(itemsById[id]);
 			}
 		}
+		
+		refreshImages();
 	});
 }
 
